@@ -3,8 +3,11 @@ from collections import OrderedDict as OD
 
 from util import Data, alarm_trace_cb, dev_io_cb, process_cb
 from util.mainwnd import control_cb, monitor_cb
-from sg.gui import LMS6002D
 from ..tools import FileIO
+try:
+    from sg.gui import LMS6002D
+except:
+    pass
 
 def trx_cmd_cb(dev, cmd, val=None):
     ip_addr = dev['ip_addr']

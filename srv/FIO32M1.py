@@ -6,10 +6,13 @@
 
 import os, time, pdb
 from util.socketio import get_fsz
-from sg.gui import LMS6002D
-from sg.gui.LMS6002D import trxpll_freq, lms_spi_cmd_cb, lms_spi_fmt_cb, rf_mode, rf_init, select_vcocap, trxlpfbw_list, TXVGA1GAIN_src_cb, TXVGA2GAIN_src_cb
-from sg.regs import bits_src, list_src
-from ctl.srv.SAM7X import SAM7X_telnet as telnet, SAM7X_send_file, SAM7X_recv_file
+try:
+    from ctl.srv.SAM7X import SAM7X_telnet as telnet, SAM7X_send_file, SAM7X_recv_file
+    from sg.gui import LMS6002D
+    from sg.gui.LMS6002D import trxpll_freq, lms_spi_cmd_cb, lms_spi_fmt_cb, rf_mode, rf_init, select_vcocap, trxlpfbw_list, TXVGA1GAIN_src_cb, TXVGA2GAIN_src_cb
+    from sg.regs import bits_src, list_src
+except:
+    pass
 
 def FIO32M1_send_file(ip_addr, fname):
     '''
