@@ -1,7 +1,7 @@
 
 from collections import OrderedDict as OD
 from util import Data, dev_io_cb, telnet_io_cb
-from util.io import MyIO
+from util.myio import MyIO
 from util.dataio import DataIO
 from util.columns import *
 
