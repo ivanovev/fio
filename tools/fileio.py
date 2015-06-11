@@ -11,7 +11,7 @@ class FileIO(DataIO):
         data.dev = dev
         data.buttons = OD()
         #data.buttons['TX stop'] = self.dma_stop_cb
-        self.add_tx_cmds(data, txmd5=False)
+        self.add_tx_cmds(data)
         data.add('txstop', wdgt='button', text='TX stop', click_cb=self.dma_stop_cb)
         self.add_rx_cmds(data)
         DataIO.__init__(self, data, dev, title=title)
