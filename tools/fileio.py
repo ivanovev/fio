@@ -1,27 +1,24 @@
 
 from collections import OrderedDict as OD
 from util import Data, dev_io_cb, telnet_io_cb
-from util.myio import MyIO
-from util.dataio import DataIO
+from util import Control, Tftp
 from util.columns import *
 
-class FileIO(DataIO):
+class FileIO(Control):
     def __init__(self, dev, title='File IO'):
         data = Data()
         data.dev = dev
         data.buttons = OD()
         #data.buttons['TX stop'] = self.dma_stop_cb
-        self.add_tx_cmds(data)
+        self.add_tx_cmds(data, txcrc32=False)
         data.add('txstop', wdgt='button', text='TX stop', click_cb=self.dma_stop_cb)
         self.add_rx_cmds(data)
-        DataIO.__init__(self, data, dev, title=title)
+        Control.__init__(self, data, dev, title=title)
         self.fileext = 'pcm'
         self.center()
 
     def init_io(self):
-        del self.io[:]
-        self.io.add(self.fio_cb1, self.tmp_cb2, lambda: False, self.cmdio_thread)
-        self.io.add(self.tmp_cb1, self.tmp_cb2, self.tmp_cb3, self.cmdio_thread)
+        self.io = Tftp(self.data.dev[c_ip_addr], 69, self, 'rxd.pcm', read=False, wnd=self)
 
     def fio_cb1(self):
         fsz = self.dataio_get_fsz()
@@ -39,4 +36,26 @@ class FileIO(DataIO):
 
     def dma_stop_cb(self, *args):
         self.cmdio(telnet_io_cb(self.data.dev, 'dma stop'), index=1)
+
+    def read_cb(self, *args):
+        self.io.read = True
+        if hasattr(self.io, 'st'):
+            if getattr(self.io.st, 'closed', False):
+                self.io.st.close()
+        if fname:
+            fname = self.data.get_value('fname')
+            self.io.st = open(fname, 'wb')
+            self.io.remotefname = 'rxd.pcm'
+            self.io_start()
+
+    def write_cb(self, *args):
+        self.io.read = False
+        if hasattr(self.io, 'st'):
+            if getattr(self.io.st, 'closed', False):
+                self.io.st.close()
+        if fname:
+            fname = self.data.get_value('fname')
+            self.io.st = open(fname, 'rb')
+            self.io.remotefname = 'txd.pcm'
+            self.io_start()
 
