@@ -1,8 +1,7 @@
 
 from collections import OrderedDict as OD
-from util import Data, dev_io_cb, telnet_io_cb
-from util import Control, Tftp
 from util.columns import *
+from util import Data, Control, Tftp, dev_io_cb, telnet_io_cb
 
 class FileIO(Control):
     def __init__(self, dev, title='File IO'):

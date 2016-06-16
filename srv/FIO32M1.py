@@ -4,7 +4,7 @@
 # Блок цифро-аналогового вывода или аналого-цифрового ввода
 # @n Функции зарегистрированные через xmlrpc имеют префикс FIO32M1.
 
-import os, time, pdb
+import time
 from util.socketio import get_fsz
 try:
     from ctl.srv.SAM7X import SAM7X_telnet as telnet, SAM7X_send_file, SAM7X_recv_file

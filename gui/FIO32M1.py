@@ -1,8 +1,7 @@
 
 from collections import OrderedDict as OD
 
-from util import Data, alarm_trace_cb, dev_io_cb, process_cb
-from util.mainwnd import control_cb, monitor_cb
+from util import Data, control_cb, monitor_cb, alarm_trace_cb, dev_io_cb, process_cb
 from ..tools import FileIO
 try:
     from sg.gui import LMS6002D
